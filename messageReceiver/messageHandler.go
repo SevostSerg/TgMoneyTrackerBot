@@ -75,6 +75,11 @@ func ModifyCash(message *botTypes.Message, userID int64) {
 	case botTypes.AddWastes:
 		user.CurrentWastes += value
 		botDB.UpdateValInDB(userID, botDB.CurrentWastesColumnName, strconv.Itoa(user.CurrentWastes))
+	case botTypes.Drop:
+		user.CurrentWastes = 0
+		user.MoneyIncome = 0
+		botDB.UpdateValInDB(userID, botDB.CurrentWastesColumnName, "0")
+		botDB.UpdateValInDB(userID, botDB.MoneyIncomeColumnName, "0")
 	default:
 		log.Panic("Unknown command!")
 		return

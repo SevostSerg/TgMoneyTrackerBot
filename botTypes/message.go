@@ -19,7 +19,8 @@ const (
 	AddWastes MessageType = 0
 	AddIncome MessageType = 1
 	AddLimit  MessageType = 2
-	Unknown   MessageType = 3
+	Drop      MessageType = 3
+	Unknown   MessageType = 4
 )
 
 func IdentifyMessageType(update *tgAPI.Update) (*Message, error) {
@@ -39,6 +40,14 @@ func IdentifyMessageType(update *tgAPI.Update) (*Message, error) {
 				LoopMessage: false,
 			}, nil
 		}
+	}
+
+	if update.Message.Text == "Drop" {
+		return &Message{
+			Message:     update.Message.Text,
+			MessageType: Drop,
+			LoopMessage: false,
+		}, nil
 	}
 
 	if update.Message.Text == "Add limit" || update.Message.Text == "Добавить предел трат" {
